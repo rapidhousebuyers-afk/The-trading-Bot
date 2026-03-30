@@ -393,8 +393,22 @@ LINES ON CHART (top to bottom of each panel):
 - Pink/Purple Bands = volatility channel around price (like Bollinger Bands). Pink = upper band, Purple = lower band. Price touching Pink = potentially overextended up. Touching Purple = overextended down.
 
 BOTTOM SECTION (Sniper Oscillator):
-- Pink/Purple oscillator lines = momentum indicators on 0-100 scale. Above 80 = overbought. Below 20 = oversold. Above 50 = bullish territory.
-- Blue signal line = confirms oscillator direction.
+- Pink Line = fastest momentum line. Oversold pinned low (0-20), overbought pinned high (80-100). LEADS the move.
+- Purple Line = "where price will REALLY move with confirmation." Confirms true direction after Pink leads.
+- Blue Line (oscillator) = anchor/target. Gravity for price. Primary target.
+- Orange Line = ENTRY TRIGGER. Rule: candle closes above Orange Line (long) or below (short) -> enter next candle on Orange Line.
+- Key signals: Pink crosses Purple = momentum shift confirmed. Blue pulling up/down = continuation confirmed.
+- On higher TF: Pink moves are big (200+ pts on 1hr). On lower TF: don't wait for Pink, use Purple earlier per Kevin's live update.
+
+MULTI-TIMEFRAME ENTRY FRAMEWORK:
+- Logo/SS forms on higher TF, enter on lower TF Blue Line:
+  * 4hr/Daily setup -> enter on 15min Blue Line
+  * 30min/1hour setup -> enter on 3min Blue Line
+  * 1hr/15min setup -> enter on 5min Blue Line
+  * 15min/1hour setup -> enter on 1min Blue Line
+  * 5min/15min setup -> enter on 30sec Blue Line
+- Logo Sell-Off Pattern: price overshoots lower TF Blue Line up -> comes back down -> goes under BL -> taps underside (now resistance) -> sells off = SS entry
+- Logo Buy-Off Pattern: price undershoots lower TF Blue Line down -> comes back up -> goes over BL -> taps topside (now support) -> rallies = BS entry
 
 HISTOGRAMS (middle of each panel):
 - BS Detector = colored histogram bars. Green bars = bullish momentum. Red bars = bearish momentum. Rising bars = momentum increasing. Falling/shortening bars = momentum fading. Yellow signal line overlay.
