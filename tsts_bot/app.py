@@ -1,14 +1,18 @@
 # TSTS Trade Analyzer Bot
 # Upload a chart screenshot → Get trade type, entry, stop loss, take profit
+# Based on The Safety Trade System (TSTS) by Kevin Grego
 
 import os
 import json
 import base64
+import subprocess
 from flask import Flask, request, jsonify, render_template_string
 
 app = Flask(__name__)
 
-HTML_TEMPLATE = """
+MIMO_API = "/root/.openclaw/skills/mimo-omni/mimo_api.sh"
+
+HTML_TEMPLATE = r"""
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -107,6 +111,7 @@ HTML_TEMPLATE = """
         .trade-ggg { background: #1a3a2a; color: #3fb950; border: 1px solid #238636; }
         .trade-blueline { background: #1a2a3a; color: #58a6ff; border: 1px solid #1f6feb; }
         .trade-logo { background: #3a2a1a; color: #d29922; border: 1px solid #9e6a03; }
+        .trade-uno { background: #2a1a3a; color: #bc8cff; border: 1px solid #8957e5; }
         .trade-unknown { background: #2d1a1a; color: #f85149; border: 1px solid #da3633; }
 
         .detail-grid {
@@ -191,22 +196,51 @@ HTML_TEMPLATE = """
             margin: 0 auto 15px;
         }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        .raw-toggle {
+            margin-top: 15px;
+            text-align: center;
+        }
+        .raw-toggle button {
+            background: none;
+            border: 1px solid #30363d;
+            color: #8b949e;
+            padding: 6px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+        .raw-toggle button:hover { border-color: #58a6ff; color: #58a6ff; }
+        #rawResponse {
+            display: none;
+            background: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 10px;
+            white-space: pre-wrap;
+            font-family: monospace;
+            font-size: 0.8rem;
+            color: #8b949e;
+            max-height: 300px;
+            overflow-y: auto;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>📊 TSTS Trade Analyzer</h1>
-        <p class="subtitle">Upload a chart screenshot → Get trade type, entry, stop loss, take profit</p>
+        <h1>&#x1F4CA; TSTS Trade Analyzer</h1>
+        <p class="subtitle">Upload a TradingView chart screenshot &rarr; Get trade type, entry, stop loss, take profit</p>
 
         <div class="upload-zone" id="uploadZone">
-            <div class="icon">📷</div>
+            <div class="icon">&#x1F4F7;</div>
             <p>Drop a chart screenshot here or click to upload</p>
             <p style="font-size: 0.8rem; margin-top: 8px; color: #484f58;">Supports PNG, JPG, JPEG</p>
             <input type="file" id="fileInput" accept="image/*">
         </div>
 
         <img id="preview" alt="Chart preview">
-        <button class="btn-analyze" id="analyzeBtn" onclick="analyzeChart()">🔍 Analyze Trade</button>
+        <button class="btn-analyze" id="analyzeBtn" onclick="analyzeChart()">&#x1F50D; Analyze Trade</button>
 
         <div class="loading" id="loading">
             <div class="spinner"></div>
@@ -214,7 +248,7 @@ HTML_TEMPLATE = """
         </div>
 
         <div class="result-card" id="resultCard">
-            <h2>📋 Trade Analysis</h2>
+            <h2>&#x1F4CB; Trade Analysis</h2>
             <div id="tradeTypeBox" class="trade-type"></div>
             <div class="detail-grid">
                 <div class="detail-box">
@@ -227,26 +261,30 @@ HTML_TEMPLATE = """
                     <div class="confidence-bar"><div class="confidence-fill" id="confBar"></div></div>
                 </div>
                 <div class="detail-box">
-                    <div class="label">📍 Entry</div>
+                    <div class="label">&#x1F4CD; Entry</div>
                     <div class="value entry-color" id="entry">-</div>
                 </div>
                 <div class="detail-box">
-                    <div class="label">🛑 Stop Loss</div>
+                    <div class="label">&#x1F6D1; Stop Loss</div>
                     <div class="value stop-color" id="stopLoss">-</div>
                 </div>
                 <div class="detail-box" style="grid-column: 1 / -1;">
-                    <div class="label">🎯 Take Profit</div>
+                    <div class="label">&#x1F3AF; Take Profit</div>
                     <div class="value tp-color" id="takeProfit">-</div>
                 </div>
             </div>
-            <h2 style="margin-top: 20px;">✅ Indicator Checklist</h2>
+            <h2 style="margin-top: 20px;">&#x2705; Indicator Checklist</h2>
             <ul class="checklist" id="checklist"></ul>
-            <h2 style="margin-top: 20px;">📝 Analysis Notes</h2>
+            <h2 style="margin-top: 20px;">&#x1F4DD; Analysis Notes</h2>
             <p id="notes" style="color: #8b949e; line-height: 1.6;"></p>
+            <div class="raw-toggle">
+                <button onclick="toggleRaw()">Show Raw AI Response</button>
+            </div>
+            <pre id="rawResponse"></pre>
         </div>
 
         <div class="disclaimer">
-            ⚠️ DEMO TRADE ONLY. NOT FINANCIAL ADVICE. This bot analyzes charts based on TSTS indicator patterns.<br>
+            &#x26A0;&#xFE0F; DEMO TRADE ONLY. NOT FINANCIAL ADVICE. This bot analyzes charts based on TSTS indicator patterns.<br>
             Always verify signals manually before placing real trades.
         </div>
     </div>
@@ -280,7 +318,7 @@ HTML_TEMPLATE = """
 
         async function analyzeChart() {
             analyzeBtn.disabled = true;
-            analyzeBtn.textContent = '⏳ Analyzing...';
+            analyzeBtn.textContent = '\u23F3 Analyzing...';
             document.getElementById('loading').style.display = 'block';
             document.getElementById('resultCard').style.display = 'none';
 
@@ -297,7 +335,7 @@ HTML_TEMPLATE = """
             }
 
             analyzeBtn.disabled = false;
-            analyzeBtn.textContent = '🔍 Analyze Trade';
+            analyzeBtn.textContent = '\u{1F50D} Analyze Trade';
             document.getElementById('loading').style.display = 'none';
         }
 
@@ -325,24 +363,46 @@ HTML_TEMPLATE = """
             (data.checklist || []).forEach(item => {
                 const li = document.createElement('li');
                 li.className = item.status;
-                li.innerHTML = `<span class="icon">${item.status === 'check' ? '✅' : item.status === 'fail' ? '❌' : '⬜'}</span> ${item.text}`;
+                li.innerHTML = '<span class="icon">' + (item.status === 'check' ? '\u2705' : item.status === 'fail' ? '\u274C' : '\u2B1C') + '</span> ' + item.text;
                 checklist.appendChild(li);
             });
 
             document.getElementById('notes').textContent = data.notes || '';
+            document.getElementById('rawResponse').textContent = data.raw_response || '';
+        }
+
+        function toggleRaw() {
+            const el = document.getElementById('rawResponse');
+            el.style.display = el.style.display === 'none' ? 'block' : 'none';
         }
     </script>
 </body>
 </html>
 """
 
-# TSTS Analysis Rules
-TSTS_RULES = """
-You are a TSTS (The Safety Trade System) chart analyzer. Analyze the uploaded TradingView chart screenshot and identify which trade setup is present.
+# ── TSTS Analysis Rules ──────────────────────────────────────────────────
 
-TRADE TYPES TO IDENTIFY:
+TSTS_SYSTEM_PROMPT = """You are a TSTS (The Safety Trade System) chart analyzer created by Kevin Grego. Analyze the uploaded TradingView chart screenshot and identify which trade setup is present.
 
-1. GGG RGG (Safety Trade) — LONG:
+YOU MUST IDENTIFY INDICATORS ON THE CHART:
+
+Lines on chart:
+- Yellow Line = primary EMA, conservative entry trigger
+- Gold Line = reversal warning EMA, aggressive entry (sits above Yellow Line)
+- Blue Line = slower anchor momentum line, gravity/magnet for price, primary target
+- Pink Lines = faster momentum trackers, pinned at extremes (80-100 or 0-20) = overextended
+- Purple Line = coincides with actual candle movement
+
+Indicators:
+- Bokk = cloud/bar showing institutional flow. Opening = momentum entering. Tapering = momentum exhausting
+- BS Detector = momentum bias indicator. Bright = strong momentum. Dimming = Reset phase (the R in GGG RGG). Gap from Yellow Line = momentum exhaustion
+- Histo3 = histogram showing V patterns (long) or Mountain/inverted-V patterns (short)
+- 3Lines / Directional Bars = bars at very bottom of chart. Solid Green = macro bullish. Solid Red = macro bearish. Mixed = no-trade zone
+- Candle EMA = color of candle overlay (green = bullish, red = bearish)
+
+TRADE TYPES:
+
+1. GGG RGG (Safety Trade) - LONG:
    - Directional Bars (3Lines at bottom): Solid GREEN
    - BS Detector: RED and Dimming (Reset phase)
    - Bokk: Opening GREEN
@@ -351,7 +411,7 @@ TRADE TYPES TO IDENTIFY:
    - Stop: Just below the swing low where trend reversed
    - Target: Previous local high or higher timeframe Blue Line
 
-2. RRR G RR (Safety Trade) — SHORT:
+2. RRR G RR (Safety Trade) - SHORT:
    - Directional Bars: Solid RED
    - BS Detector: GREEN and Dimming (Reset phase)
    - Bokk: Opening RED
@@ -370,39 +430,48 @@ TRADE TYPES TO IDENTIFY:
    - Target: Blue Line on execution timeframe
 
 4. LOGO TRADE:
-   - Clean V shape (long) or Inverted V / Mountain shape (short) on candle indicators
+   - Clean V shape (long) or Inverted V / Mountain shape (short) on Histo3
    - Directional Bars bright green (long) or bright red (short)
    - BS shows Dimming (Reset)
    - Entry: Buy/Sell Stop at Gold Line or Yellow Line
    - Stop: Bottom of V (long) or Peak of Mountain (short)
-   - Target: Momentum loss — watch lower TF for color turn
+   - Target: Momentum loss - watch lower TF for color turn
 
-KEY VISUAL INDICATORS ON CHART:
-- Lines: Yellow (conservative entry), Gold (aggressive entry), Blue (target/gravity)
-- BS Detector: Shows as colored bars/line — bright = momentum alive, dimming = reset
-- Bokk: Cloud/bar that expands (opening) or tapers (closing)
-- Histo3: Histogram bars — V or Mountain patterns
-- 3Lines/Directional Bars: Bars at very bottom — solid green or red
-- Pink Lines: Fast momentum — pinned at extremes = overextended
-- Orange Lines: Take profit targets
+5. UNO REVERSE (Keith Bot / Oreo Cookie Trade):
+   - Multi-timeframe convergence: timeframes flipping red to green in ascending order
+   - Oreo pattern: higher TFs green, middle TFs red, lower TFs turning green
+   - Four indices green + one lagging red on trigger timeframe
+   - Entry: Buy/Sell Stop on the lagging symbol
+   - Stop: Just beyond swing point where trend reversed
+   - Target: Blue Line of trigger timeframe
 
-If you cannot clearly identify the setup, say so. Be specific about what you see and what's missing.
+RULES:
+- Always read from bottom up: Directional Bars first, then BS, then Bokk, then Candle EMA
+- If Directional Bars are mixed/chop = NO TRADE
+- Gold only gets buys (on gold-related instruments)
+- Higher timeframe flow controls lower timeframes
+- "When one goes up, they all go up. When one goes down, they all go down."
 
-Return your analysis as JSON with these fields:
-- trade_type: "GGG RGG (Safety Trade - LONG)" or "RRR G RR (Safety Trade - SHORT)" or "Blue Line Trade" or "Logo Trade" or "Unknown"
-- trade_class: "trade-ggg" or "trade-blueline" or "trade-logo" or "trade-unknown"
-- direction: "LONG" or "SHORT"
-- entry: specific entry instruction (e.g., "Buy Stop at Gold Line — 42,180" or "Sell Stop at Yellow Line")
-- stop_loss: specific stop loss instruction
-- take_profit: specific take profit targets (TP1, TP2, TP3 if visible)
-- confidence: 0-100
-- checklist: array of {text, status} where status is "check", "uncheck", or "fail"
-- notes: any additional observations or warnings
-"""
+Return your analysis as STRICT JSON with these fields:
+{
+  "trade_type": "GGG RGG (Safety Trade - LONG)" or "RRR G RR (Safety Trade - SHORT)" or "Blue Line Trade" or "Logo Trade" or "Uno Reverse (Keith Bot)" or "Unknown",
+  "trade_class": "trade-ggg" or "trade-blueline" or "trade-logo" or "trade-uno" or "trade-unknown",
+  "direction": "LONG" or "SHORT" or "-",
+  "entry": "specific entry instruction with price level if visible",
+  "stop_loss": "specific stop loss instruction with price level if visible",
+  "take_profit": "specific take profit targets (TP1, TP2, TP3 if visible)",
+  "confidence": 0-100,
+  "checklist": [{"text": "indicator name and status", "status": "check or uncheck or fail"}],
+  "notes": "additional observations, warnings, or what to watch for"
+}
+
+Return ONLY the JSON object. No markdown fences, no extra text."""
+
 
 @app.route('/')
 def index():
     return render_template_string(HTML_TEMPLATE)
+
 
 @app.route('/analyze', methods=['POST'])
 def analyze():
@@ -421,29 +490,27 @@ def analyze():
         f.write(base64.b64decode(image_b64))
 
     # Call mimo-omni for analysis
-    import subprocess
-    result = subprocess.run(
-        ['bash', '/root/.mi/.openclaw/skills/mimo-omni/mimo_api.sh',
-         'image', img_path,
-         TSTS_RULES + '\n\nAnalyze this chart and return ONLY valid JSON.'],
-        capture_output=True, text=True, timeout=120,
-        env={**os.environ}
-    )
-
-    output = result.stdout.strip()
-
-    # Try to extract JSON from the response
     try:
-        # Find JSON in the response
-        json_start = output.find('{')
-        json_end = output.rfind('}') + 1
-        if json_start >= 0 and json_end > json_start:
-            analysis = json.loads(output[json_start:json_end])
-        else:
-            raise ValueError("No JSON found in response")
-    except (json.JSONDecodeError, ValueError):
-        # Fallback: return raw analysis
-        analysis = {
+        result = subprocess.run(
+            ['bash', MIMO_API, 'image', img_path, TSTS_SYSTEM_PROMPT],
+            capture_output=True, text=True, timeout=120,
+            env={**os.environ}
+        )
+        output = result.stdout.strip()
+    except subprocess.TimeoutExpired:
+        return jsonify({
+            'trade_type': 'Analysis Timeout',
+            'trade_class': 'trade-unknown',
+            'direction': '-',
+            'entry': '-',
+            'stop_loss': '-',
+            'take_profit': '-',
+            'confidence': 0,
+            'checklist': [],
+            'notes': 'Analysis timed out after 120 seconds. Try a smaller or clearer image.'
+        })
+    except Exception as e:
+        return jsonify({
             'trade_type': 'Analysis Error',
             'trade_class': 'trade-unknown',
             'direction': '-',
@@ -452,10 +519,38 @@ def analyze():
             'take_profit': '-',
             'confidence': 0,
             'checklist': [],
-            'notes': f'Raw response: {output[:500]}'
+            'notes': f'Error: {str(e)}'
+        })
+
+    # Try to extract JSON from the response
+    analysis = None
+    try:
+        json_start = output.find('{')
+        json_end = output.rfind('}') + 1
+        if json_start >= 0 and json_end > json_start:
+            analysis = json.loads(output[json_start:json_end])
+    except (json.JSONDecodeError, ValueError):
+        pass
+
+    if not analysis:
+        analysis = {
+            'trade_type': 'Unknown',
+            'trade_class': 'trade-unknown',
+            'direction': '-',
+            'entry': '-',
+            'stop_loss': '-',
+            'take_profit': '-',
+            'confidence': 0,
+            'checklist': [],
+            'notes': 'Could not parse AI response. See raw output below.',
+            'raw_response': output[:1000]
         }
+    else:
+        analysis['raw_response'] = output
 
     return jsonify(analysis)
 
+
 if __name__ == '__main__':
+    print("TSTS Trade Analyzer starting on http://0.0.0.0:7860")
     app.run(host='0.0.0.0', port=7860, debug=False)
