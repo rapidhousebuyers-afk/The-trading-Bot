@@ -397,6 +397,8 @@ BOTTOM SECTION (Sniper Oscillator):
 - Purple Line = "where price will REALLY move with confirmation." Confirms true direction after Pink leads.
 - Blue Line (oscillator) = anchor/target. Gravity for price. Primary target.
 - Orange Line = ENTRY TRIGGER. Rule: candle closes above Orange Line (long) or below (short) -> enter next candle on Orange Line.
+- 10 orange EMA crossing 30 EMA = EXACT ENTRY SIGNAL (bearish: 10 crosses below 30; bullish: 10 crosses above 30).
+- Higher TF entry line carries to lower TF UNCHANGED — do not move the line when scaling down.
 - Key signals: Pink crosses Purple = momentum shift confirmed. Blue pulling up/down = continuation confirmed.
 - On higher TF: Pink moves are big (200+ pts on 1hr). On lower TF: don't wait for Pink, use Purple earlier per Kevin's live update.
 

@@ -164,3 +164,57 @@ Mirror of the short:
 - **Orange** = entry trigger line (close above/below → enter next candle)
 - Pink crosses Purple → momentum shift confirmed
 - Blue pulling up (long) or down (short) = continuation confirmed
+
+---
+
+## Images 7-9: Complete 4hr → 15min → 1min Trade Execution Flow
+
+### Image 7: `chart_4hr_logo_1.png` — 4-Hour Logo Setup (NAS100)
+
+**Setup:** Bearish Head & Shoulders (Logo pattern) on 4hr chart
+- Left shoulder → Head (highest peak) → Right shoulder → Breakdown
+- Price lost the 15min Blue Line at **24,320.4** — key bearish signal
+- SS (Sell Stop) entry at the neckline break below 24,320.4
+- TSTS indicators: Core v1.7, BOKK v1.4, BS Detector v1.5, Real Direction v1.3, Sniper v1.2
+
+**Context from poster:**
+- "The trade today was a 4 hour SS. We can't take that with props. Only swings."
+- "But scaling down, we actually can take it."
+- "The 4/D is off the 15 M BL most the time. It lost its 15 m BL."
+
+### Image 8: `chart_15m_entry_2.png` — 15-Minute Logo Confirmation + Entry
+
+**Same Logo pattern on 15min** confirms the 4hr setup.
+
+**CRITICAL NEW RULE — 10 Orange EMA / 30 EMA Crossover:**
+- **10-period orange EMA crossing below the 30 EMA = EXACT ENTRY**
+- Entry zone: ~24,804.8 to 24,853.9
+- This is a bearish short-term MA crossover — faster MA moving under slower MA = downward momentum accelerating
+- **"Didn't even move the line for the 1 m entry"** — the entry level carries to lower TF unchanged
+
+### Image 9: `chart_1m_trigger_3.png` — 1-Minute Execution
+
+**1min = trigger/execution chart:**
+- The 15min entry level (24,789.2) is overlaid directly onto the 1min chart
+- Higher TF entry line is STATIC — don't adjust it
+- Sell Stop fires when price breaks below the 15min entry level
+- Price dropped to 24,640.8 after trigger — confirmed bearish move
+- BS Detector shows negative values (8.8, 8.7, -5.7, -6.3) confirming bearish momentum
+- Sniper bottom: 100.0, 82.2, 40.4, 0.0 — momentum moving from overbought toward oversold
+
+### Complete Trade Execution Summary
+
+| Step | Timeframe | Action |
+|------|-----------|--------|
+| 1. Setup | 4hr/Daily | Logo pattern forms (bearish H&S), price loses 15min Blue Line |
+| 2. Confirm | 15min | Same logo pattern confirmed, 10 orange EMA crosses 30 EMA |
+| 3. Entry Line | 15min | Entry level set at crossover (~24,804) — this line is FIXED |
+| 4. Trigger | 1min | Sell Stop fires when price breaks below the 15min entry line |
+| 5. Confirm | All TFs | BS Detector negative, Sniper descending, directional bars red |
+
+### Key Rules Extracted:
+1. **10 orange EMA crossing 30 EMA** = exact entry signal (not just Orange Line close)
+2. **Higher TF entry line carries to lower TF unchanged** — don't move it
+3. **4hr/Daily SS** → can scale down to 15min/1min for prop account restrictions
+4. **BS Detector negative values** confirm bearish momentum at entry point
+5. **Logo on multiple TFs** = higher confidence (4hr + 15min both showing logo)
