@@ -538,6 +538,27 @@ def analyze():
         json.dump(analysis_save, f, indent=2)
     
     analysis['saved_to'] = f"{save_name}.json"
+    
+    # Auto-commit and push to GitHub
+    try:
+        subprocess.run(
+            ['git', 'add', f'tsts_bot/results/{save_name}.json', f'tsts_bot/results/{save_name}.png'],
+            cwd=os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+            capture_output=True, timeout=10
+        )
+        subprocess.run(
+            ['git', 'commit', '-m', f'Analysis: {analysis.get("trade_type", "unknown")} {analysis.get("direction", "")} {analysis.get("confidence", 0)}%'],
+            cwd=os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+            capture_output=True, timeout=10
+        )
+        subprocess.run(
+            ['git', 'push', 'origin', 'main'],
+            cwd=os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+            capture_output=True, timeout=30
+        )
+    except Exception:
+        pass  # Push failure shouldn't block the response
+    
     return jsonify(analysis)
 
 
