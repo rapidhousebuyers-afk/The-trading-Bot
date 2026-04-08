@@ -1,0 +1,54 @@
+{
+  "trade_type": "RRR G RR SHORT (Forming with Mixed Directional Bars)",
+  "trade_class": "trade-ggg",
+  "direction": "SHORT",
+  "entry": "Sell Stop at Gold EMA on 30s (approx. 24,552.75)",
+  "stop_loss": "Above recent swing high on 30s (approx. 24,565)",
+  "take_profit": "TP1: 24,540.00",
+  "confidence": 15,
+  "checklist": [
+    {
+      "text": "Directional Bars on 30s: Mixed (green and red visible)",
+      "status": "fail"
+    },
+    {
+      "text": "BS Detector on 30s: Dimming red (reset phase)",
+      "status": "check"
+    },
+    {
+      "text": "Bokk on 30s: Upper line red, contracting",
+      "status": "check"
+    },
+    {
+      "text": "Price on 30s: Below gold and yellow EMAs",
+      "status": "check"
+    },
+    {
+      "text": "Directional Bars on 1h: Solid red (locked bearish)",
+      "status": "check"
+    },
+    {
+      "text": "BS Detector on 1h: Dimming red (reset phase)",
+      "status": "check"
+    },
+    {
+      "text": "Bokk on 1h: Upper line red, contracting",
+      "status": "check"
+    },
+    {
+      "text": "Price on 1h: Below EMAs",
+      "status": "check"
+    }
+  ],
+  "all_trades": [
+    {
+      "trade_type": "RRR G RR SHORT",
+      "direction": "SHORT",
+      "confidence": 15
+    }
+  ],
+  "notes": "Higher TF (1h) shows bearish reset with locked red directional bars, but lower TF (30s) has mixed directional bars, preventing confirmation. Bokk contracting on both TFs indicates momentum exhaustion. Price below EMAs on both. However, take profit target (blue line) is above entry on both TFs, violating direction validation for SHORT. This setup is forming but not confirmed due to mixed directional bars and invalid target. Confidence is low.",
+  "raw_response": "{\n  \"trade_type\": \"RRR G RR SHORT (Forming with Mixed Directional Bars)\",\n  \"trade_class\": \"trade-ggg\",\n  \"direction\": \"SHORT\",\n  \"entry\": \"Sell Stop at Gold EMA on 30s (approx. 24,552.75)\",\n  \"stop_loss\": \"Above recent swing high on 30s (approx. 24,565)\",\n  \"take_profit\": \"TP1: 24,540.00\",\n  \"confidence\": 15,\n  \"checklist\": [\n    {\"text\": \"Directional Bars on 30s: Mixed (green and red visible)\", \"status\": \"fail\"},\n    {\"text\": \"BS Detector on 30s: Dimming red (reset phase)\", \"status\": \"check\"},\n    {\"text\": \"Bokk on 30s: Upper line red, contracting\", \"status\": \"check\"},\n    {\"text\": \"Price on 30s: Below gold and yellow EMAs\", \"status\": \"check\"},\n    {\"text\": \"Directional Bars on 1h: Solid red (locked bearish)\", \"status\": \"check\"},\n    {\"text\": \"BS Detector on 1h: Dimming red (reset phase)\", \"status\": \"check\"},\n    {\"text\": \"Bokk on 1h: Upper line red, contracting\", \"status\": \"check\"},\n    {\"text\": \"Price on 1h: Below EMAs\", \"status\": \"check\"}\n  ],\n  \"all_trades\": [\n    {\"trade_type\": \"RRR G RR SHORT\", \"direction\": \"SHORT\", \"confidence\": 15}\n  ],\n  \"notes\": \"Higher TF (1h) shows bearish reset with locked red directional bars, but lower TF (30s) has mixed directional bars, preventing confirmation. Bokk contracting on both TFs indicates momentum exhaustion. Price below EMAs on both. However, take profit target (blue line) is above entry on both TFs, violating direction validation for SHORT. This setup is forming but not confirmed due to mixed directional bars and invalid target. Confidence is low.\"\n}",
+  "saved_at": "2026-04-09T05:16:08.002011",
+  "chart_image": "20260409_051608_RRR_G_RR_SHORT_(Forming_with_Mixed_Direc.png"
+}

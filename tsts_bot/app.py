@@ -6,11 +6,15 @@ import os
 import json
 import base64
 import subprocess
+import shutil
+from datetime import datetime
 from flask import Flask, request, jsonify, render_template_string
 
 app = Flask(__name__)
 
 MIMO_API = "/root/.openclaw/skills/mimo-omni/mimo_api.sh"
+RESULTS_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'results')
+os.makedirs(RESULTS_DIR, exist_ok=True)
 
 HTML_TEMPLATE = r"""
 <!DOCTYPE html>
@@ -152,7 +156,30 @@ HTML_TEMPLATE = r"""
             &#x26A0;&#xFE0F; DEMO TRADE ONLY. NOT FINANCIAL ADVICE. This bot analyzes charts based on TSTS indicator patterns.<br>
             Always verify signals manually before placing real trades.
         </div>
+        <div style="margin-top: 30px;">
+            <h2 style="color: #58a6ff; font-size: 1.3rem; margin-bottom: 15px;">&#x1F4CB; Analysis History</h2>
+            <button onclick="loadHistory()" style="background: #21262d; border: 1px solid #30363d; color: #8b949e; padding: 8px 16px; border-radius: 6px; cursor: pointer; margin-bottom: 15px;">Load History</button>
+            <div id="historyList"></div>
+        </div>
     </div>
+    <script>
+        async function loadHistory() {
+            const res = await fetch('/results');
+            const data = await res.json();
+            const div = document.getElementById('historyList');
+            if (data.results.length === 0) { div.innerHTML = '<p style="color:#484f58;">No saved analyses yet.</p>'; return; }
+            div.innerHTML = data.results.map(r => `
+                <div style="background:#161b22; border:1px solid #30363d; border-radius:8px; padding:12px; margin-bottom:8px; display:flex; justify-content:space-between; align-items:center;">
+                    <div>
+                        <strong style="color:#c9d1d9;">${r.trade_type}</strong>
+                        <span style="color:${r.direction==='LONG'?'#3fb950':r.direction==='SHORT'?'#f85149':'#8b949e'}; margin-left:8px;">${r.direction}</span>
+                        <span style="color:#8b949e; margin-left:8px;">${r.confidence}%</span>
+                    </div>
+                    <div style="color:#484f58; font-size:0.8rem;">${r.saved_at}</div>
+                </div>
+            `).join('');
+        }
+    </script>
     <script>
         const uploadZone = document.getElementById('uploadZone');
         const fileInput = document.getElementById('fileInput');
@@ -492,7 +519,61 @@ def analyze():
         if 'all_trades' not in analysis:
             analysis['all_trades'] = []
 
+    # Auto-save analysis result
+    timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+    trade_type_safe = analysis.get('trade_type', 'unknown').replace(' ', '_').replace('/', '-')[:40]
+    save_name = f"{timestamp}_{trade_type_safe}"
+    
+    # Save chart image
+    img_save_path = os.path.join(RESULTS_DIR, f"{save_name}.png")
+    with open(img_save_path, 'wb') as f:
+        f.write(base64.b64decode(image_b64))
+    
+    # Save analysis JSON
+    analysis_save = {**analysis}
+    analysis_save['saved_at'] = datetime.now().isoformat()
+    analysis_save['chart_image'] = f"{save_name}.png"
+    json_save_path = os.path.join(RESULTS_DIR, f"{save_name}.json")
+    with open(json_save_path, 'w') as f:
+        json.dump(analysis_save, f, indent=2)
+    
+    analysis['saved_to'] = f"{save_name}.json"
     return jsonify(analysis)
+
+
+@app.route('/results')
+def list_results():
+    """List all saved analysis results."""
+    files = sorted([f for f in os.listdir(RESULTS_DIR) if f.endswith('.json')], reverse=True)
+    results = []
+    for f in files:
+        try:
+            with open(os.path.join(RESULTS_DIR, f)) as fh:
+                data = json.load(fh)
+            results.append({
+                'filename': f,
+                'trade_type': data.get('trade_type', '-'),
+                'direction': data.get('direction', '-'),
+                'confidence': data.get('confidence', 0),
+                'saved_at': data.get('saved_at', '-'),
+                'chart_image': data.get('chart_image', ''),
+                'entry': data.get('entry', '-'),
+                'stop_loss': data.get('stop_loss', '-'),
+                'take_profit': data.get('take_profit', '-')
+            })
+        except (json.JSONDecodeError, KeyError):
+            continue
+    return jsonify({'results': results, 'total': len(results)})
+
+
+@app.route('/results/<filename>')
+def get_result(filename):
+    """Get a specific saved analysis result."""
+    path = os.path.join(RESULTS_DIR, filename)
+    if not os.path.exists(path):
+        return jsonify({'error': 'Not found'}), 404
+    with open(path) as f:
+        return jsonify(json.load(f))
 
 
 if __name__ == '__main__':
