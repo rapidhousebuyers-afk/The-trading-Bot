@@ -35,7 +35,7 @@
 - **Entry trigger:** Lower TF confirms the direction flip (not the higher TF — the higher TF just shows you the pattern exists)
 - **Stop:** Below the V-bottom
 - **Target:** Momentum loss (watch pink fall again)
-- **MULTIPLE SETUPS SIMULTANEOUSLY:** A LOGO and a GGG RGG can both be present on the same 5m at the same moment. They are different readings of the same price action — LOGO via V-shape/sniper divergence, GGG RGG via dir bars/BS/Bokk alignment. Classify each independently.
+- **MULTIPLE SETUPS SIMULTANEOUSLY:** A LOGO and a GGG RGG can both be present on the same 5m at the same moment. They are different readings of the same price action — LOGO via V-shape/sniper divergence, GGG RGG via dir bars/BS/Bokk alignment. Classify each independently. **WHEN TWO DIFFERENT TYPES APPEAR = STRONG TRADE.** Boost confidence +10-15%. Rare but high-probability.
 
 ### GGG RGG LONG (Safety Trade)
 - Bottom-up build: Dir Bars solid green → BS bright green → Bokk opening green → Price above EMAs
