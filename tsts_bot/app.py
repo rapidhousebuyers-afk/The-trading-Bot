@@ -391,17 +391,15 @@ TRADE TYPE RULES
    Target: Blue Line on execution TF (must be below entry)
 
 5. LOGO TRADE — LONG (Clean V):
-   Higher TF: Bokk opening green (bullish context), Sniper blue UP (trend intact)
-   Middle TF: Bokk closing, BS dimming green — this is the V dip
-   Lower TF: Dir bars mixed/transitioning, Sniper blue curling UP while pink dips — V-bottom forming
-   ENTRY TRIGGER: Lower TF flips green, Sniper pink turns up rejoining blue
+   Higher TFs: Where you SEE the V-shape pattern forming — Bokk closing, BS dimming, then recovering
+   Lower TFs: Where you TIME the entry — the lower TF flips green = trigger to enter
+   ENTRY TRIGGER: Lower TF confirms the direction flip (e.g., 30s goes green). The higher TF just shows you the pattern exists.
    Stop: Below V-bottom. Target: Momentum loss (watch pink fall again).
 
 6. LOGO TRADE — SHORT (Clean Inverted V):
-   Higher TF: Bokk opening red (bearish context), Sniper blue DOWN (bearish trend intact)
-   Middle TF: Bokk closing, BS dimming red — the inverted V peak
-   Lower TF: Dir bars mixed/transitioning, Sniper blue curling DOWN while pink rises
-   ENTRY TRIGGER: Lower TF flips red, Sniper pink turns down rejoining blue
+   Higher TFs: Where you SEE the inverted V pattern forming — Bokk closing, BS dimming, then recovering bearish
+   Lower TFs: Where you TIME the entry — the lower TF flips red = trigger to enter
+   ENTRY TRIGGER: Lower TF confirms the direction flip. The higher TF shows the pattern.
    Stop: Above V-peak. Target: Momentum loss.
 
 MULTI-TIMEFRAME SEQUENCING (CRITICAL FOR EARLY DETECTION):

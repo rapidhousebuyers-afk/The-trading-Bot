@@ -29,10 +29,9 @@
 ## Trade Type Identification — Updated
 
 ### LOGO Trade (Clean V)
-- Higher TF: Bokk opening green (bullish context)
-- Middle TF: Bokk closing, BS dimming — this is the "V dip"
-- Lower TF: Fading/mixed dir bars, sniper blue curling up while pink dips — this is the V-bottom
-- **Entry trigger:** Lower TF flips green as pink momentum rejoins blue strength
+- Higher TFs: Where you SEE the LOGO pattern forming — the V-shape is visible here (Bokk closing, BS dimming, then recovering)
+- Lower TFs: Where you TIME the entry — the lower TF flips direction (e.g., 30s goes green) and that's your trigger to enter
+- **Entry trigger:** Lower TF confirms the direction flip (not the higher TF — the higher TF just shows you the pattern exists)
 - **Stop:** Below the V-bottom
 - **Target:** Momentum loss (watch pink fall again)
 
