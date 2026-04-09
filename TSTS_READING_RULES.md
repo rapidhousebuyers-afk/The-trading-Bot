@@ -67,3 +67,27 @@
 4. **Dimming red ≠ bearish** — it means bearish momentum is exhausting. Context matters: is it a Reset (higher TF) or a flip starting (lower TF)?
 5. **Closing Bokk after a run = consolidation, not necessarily reversal** — check if higher TF Bokk is still open
 6. **The sniper blue line is the single most important line** — if blue is up, the trend is your friend. If blue is down, don't fight it.
+
+## Critical Timing Insights (from live trading)
+
+### Aggressive Entry on Color Transition
+- You do NOT need to wait for a Bokk to fully open in its new color
+- Enter aggressively AS the Bokk is changing colors (e.g., red → green transition)
+- By the time it's fully confirmed, the best entry price is already gone
+- This applies to Bokk color, histogram color, and dir bar color — catch the flip, not the confirmation
+
+### Higher TF Lag Is Normal — Not a Contradiction
+- When lower TFs are building a new direction, higher TFs have NOT had "time" to change yet
+- Example: 30s flipping green → 5m still dimming red → 15m still dimming red
+- The 15m dir bars dimming red does NOT mean bearish pressure — it means the higher TF hasn't caught up yet
+- As lower TF momentum propagates upward, the higher TF indicators WILL go brighter in the new direction
+- Rule: Lower TFs LEAD, higher TFs FOLLOW. Don't penalize a setup because higher TFs haven't flipped yet.
+
+### Sniper Pink/Blue Divergence Rules
+- Pink and blue CAN sit at very different levels — one high, one low — without breaking the setup
+- The distance between them is NOT the issue; the DIRECTION of blue is what matters
+- If blue stays UP while pink is low = valid divergence, the dip is buyable
+- The divergence is TEMPORARY — pink and blue do not stay divided long
+- One will typically break: if pink joins blue (turns up) = trade triggers. If blue joins pink (turns down) = setup fails.
+- Use OTHER indicators (Bokk color, histogram direction, dir bars) to decide which way it will resolve
+- Don't rely on pink/blue distance alone — it's the combination with all other indicators that tells the story

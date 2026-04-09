@@ -358,6 +358,13 @@ CRITICAL DIVERGENCE PATTERNS (LOGO Trade detection):
 - Blue UP + Pink turning back up = momentum rejoining strength = LOGO entry trigger.
 - Blue DOWN + Pink falling = trend AND momentum weakening = bearish, no long entry.
 - Blue DOWN + Pink UP = short-term bounce within weakening trend = risky, avoid.
+- Pink and blue CAN sit at very different levels — distance between them does NOT break the setup.
+- The divergence is TEMPORARY — one will break. Use OTHER indicators (Bokk, histogram, dir bars) to predict which way.
+- If pink joins blue (turns up) = trade triggers. If blue joins pink (turns down) = setup fails.
+
+CRITICAL TIMING RULES:
+- AGGRESSIVE ENTRY: You do NOT need to wait for Bokk to fully open in its new color. Enter AS it is changing colors (red → green transition). Best price is gone by the time it's fully confirmed.
+- HIGHER TF LAG IS NORMAL: When lower TFs are building a new direction, higher TFs have NOT had "time" to change yet. Example: 30s flipping green while 15m dir bars still dimming red does NOT mean bearish — it means 15m hasn't caught up. As lower TF momentum propagates up, higher TF indicators WILL go brighter. Lower TFs LEAD, higher TFs FOLLOW.
 
 ═══════════════════════════════════════════════════
 TRADE TYPE RULES
