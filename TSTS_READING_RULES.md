@@ -4,7 +4,7 @@
 
 **Always read in this order:**
 1. **Timeframes: RIGHT to LEFT** (highest TF → lowest TF)
-   - Right panel = 15m (highest)
+   - Right panel = 15m (highest) — SHOWS THE INDEX DIRECTION (overall market context)
    - Middle panel = 5m (middle)
    - Left panel = 30s (lowest/execution)
    - This is the standard chart layout

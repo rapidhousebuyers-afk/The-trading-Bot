@@ -299,7 +299,7 @@ CHART READING ORDER (CRITICAL — VIOLATIONS = WRONG ANALYSIS)
 ═══════════════════════════════════════════════════
 YOU MUST read the chart in this exact order:
 1. TIMEFRAMES: RIGHT to LEFT = highest TF to lowest TF
-   - Right panel = highest timeframe (15m)
+   - Right panel = highest timeframe (15m) — THIS SHOWS THE INDEX DIRECTION (overall market context)
    - Middle panel = middle timeframe (5m)
    - Left panel = lowest/execution timeframe (30s)
 2. PANES within each panel: BOTTOM to TOP
