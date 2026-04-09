@@ -35,6 +35,7 @@
 - **Entry trigger:** Lower TF confirms the direction flip (not the higher TF — the higher TF just shows you the pattern exists)
 - **Stop:** Below the V-bottom
 - **Target:** Momentum loss (watch pink fall again)
+- **MULTIPLE SETUPS PER CHART:** A single chart can have multiple LOGO setups. Each V-shape in the 5m histogram = a separate trade opportunity. Scan the entire chart, not just the rightmost candle.
 
 ### GGG RGG LONG (Safety Trade)
 - Bottom-up build: Dir Bars solid green → BS bright green → Bokk opening green → Price above EMAs
