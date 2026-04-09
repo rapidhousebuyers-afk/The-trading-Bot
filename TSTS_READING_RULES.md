@@ -4,9 +4,10 @@
 
 **Always read in this order:**
 1. **Timeframes: RIGHT to LEFT** (highest TF → lowest TF)
-   - Right panel = highest timeframe (e.g., 15m, 4H)
-   - Middle panel = middle timeframe (e.g., 5m, 1H)
-   - Left panel = lowest/exexecution timeframe (e.g., 30s, 15m)
+   - Right panel = 15m (highest)
+   - Middle panel = 5m (middle)
+   - Left panel = 30s (lowest/execution)
+   - This is the standard chart layout
 
 2. **Panes within each panel: BOTTOM to TOP**
    - Sniper Oscillator (bottom) → BS Detector/Histogram (middle) → Candle/Bokk Channel (top)

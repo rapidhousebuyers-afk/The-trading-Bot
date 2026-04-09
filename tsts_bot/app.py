@@ -299,9 +299,9 @@ CHART READING ORDER (CRITICAL — VIOLATIONS = WRONG ANALYSIS)
 ═══════════════════════════════════════════════════
 YOU MUST read the chart in this exact order:
 1. TIMEFRAMES: RIGHT to LEFT = highest TF to lowest TF
-   - Right panel = highest timeframe (e.g., 15m, 4H)
-   - Middle panel = middle timeframe (e.g., 5m, 1H)
-   - Left panel = lowest/execution timeframe (e.g., 30s, 15m)
+   - Right panel = highest timeframe (15m)
+   - Middle panel = middle timeframe (5m)
+   - Left panel = lowest/execution timeframe (30s)
 2. PANES within each panel: BOTTOM to TOP
    - Sniper Oscillator (bottom) → BS Detector/Histogram (middle) → Candle/Bokk Channel (top)
 
@@ -310,8 +310,8 @@ CHART LAYOUT TYPES
 ═══════════════════════════════════════════════════
 
 TRADINGVIEW DESKTOP LAYOUT:
-- 2-4 timeframes displayed side by side (e.g., 30s, 2m, 15m, 1h)
-- Each panel has three sections stacked vertically (candle, histogram, sniper)
+- STANDARD: 3 panels, RIGHT to LEFT = 15m, 5m, 30s
+- Each panel has three sections stacked vertically (candle/Bokk, histogram/BS detector, sniper)
 
 TSTS MOBILE APP LAYOUT:
 - Each timeframe is a FULL-WIDTH panel stacked vertically (not side by side)
